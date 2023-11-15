@@ -90,17 +90,66 @@ The joint probability that brown eye parents have brown eye children is $0.75\cd
 
 So the prior for brown eye kid with brown eye parent is $\frac{2p}{1+2p}$.
 
-Therefore, the probability that Judy is homozygous given that all her children have brown eyes is
-Pr(Judy is Xx | n children all have brown eyes) = $\frac{prior \cdot (\frac{3}{4})^n}{prior \cdot (\frac{3}{4})^n+(1-prior)\cdot 1}$, the other term in denomnator means the probability that Judy is XX and all her children are brown eyes, they sum up and give the probability that all her children are brown eyes.
+Therefore, the probability that Judy is homozygous given that all her children have brown eyes is Pr(Judy is Xx \| n children all have brown eyes) = $\frac{prior \cdot (\frac{3}{4})^n}{prior \cdot (\frac{3}{4})^n+(1-prior)\cdot 1}$, the other term in denomnator means the probability that Judy is XX and all her children are brown eyes, they sum up and give the probability that all her children are brown eyes.
 
+Given that Judy's children are all brown-eyed, her grandchild has blue eyes only if Judy's child is Xx. So we first need to calculate the probability of Judy's child is heterozygous.
 
+$Pr(Judy's \ child\ is\ heterozygous)=\frac{2}{3}\cdot Pr(Judy\ is\ heterozygous)+0.5 \cdot Pr(Judy\ is\ homozygous)\\=\frac{\frac{2p}{1+2p}\cdot (\frac{3}{4})^n}{\frac{2p}{1+2p}\cdot (\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{2}{3})+\frac{\frac{1}{1+2p}}{\frac{2p}{1+2p}\cdot (\frac{3}{4})^n+\frac{1}{1+2p}}(\frac{1}{2})$
 
-```{r}
+If Judy's child's spouse is XX, then the probability of the grandchild is blue eyes is 0; If Judy's child's spouse is Xx, then the probability of the grandchild is blue eyes is $\frac{1}{4}$ If Judy's child's spouse is xx, then the probability of the grandchild is blue eyes is $\frac{1}{2}$ So the probability of the grandchild is blue eyes is $Pr(Judy's \ child\ is\ heterozygous)\cdot(Pr(the\ spouse\ is\ xX)\cdot\frac{1}{4} + Pr(the\ spouse\ is\ xx)\cdot\frac{1}{2} )\\=Pr(Judy's \ child\ is\ heterozygous)\cdot (2p(1-p)\cdot \frac{1}{4}+p^2\cdot \frac{1}{2})$
 
 ## Q4
 
+(a) 
+
+```{r}
+outcomes <- c(-7,-5,-3,-3,1,6,7,13,15,16,20,21)
+#Pr(favorite wins | point spread=8) 
+Pr1 <- sum(outcomes>0)/length(outcomes)
+#Pr(favorite wins by at least 8 | point spread=8)
+Pr2 <- sum(outcomes>8)/length(outcomes)
+#Pr(favorite wins by at least 8 | point spread=8 & favorite wins)
+Pr3 <- sum(outcomes>8)/sum(outcomes>0)
+
+```
+
+(b) 
+
+$d = outcome - pointspread\\ d \sim Normal(0,14^2)$
+
+```{r}
+#Pr(favorite wins | point spread=8)
+Pr1 <- 1-pnorm(-8.5,0,14)
+#Pr(favorite wins by at least 8 | point spread=8)
+Pr2 <- 1-pnorm(-0.5,0,14)
+#Pr(favorite wins by at least 8 | point spread=8 & favorite wins)
+Pr3 <- Pr2/Pr1
+```
+
 ## Q6
+
+Same as in the assignment.
 
 ## Q7
 
+*Under the stay strategy*
+
+$Pr(choose\ the\ right\ box)\cdot Pr(host\ opens\ the\ empty\ box\ |choose\ the\ right\ box)\cdot Pr(contestant\ wins\ the\ car\ |host\ opens\ the\ empty\ box)\\+Pr(choose\ the\ wrong\ box)\cdot Pr(host\ opens\ the\ empty\ box\ |choose\ the\ wrong\ box)\cdot Pr(contestant\ wins\ the\ car\ |host\ opens\ the\ empty\ box)\\=\frac{1}{3} \cdot 1 \cdot 1 + \frac{2}{3} \cdot 1 \cdot 0 = \frac{1}{3}$
+
+*Under the switch strategy*
+
+$Pr(choose\ the\ right\ box)\cdot Pr(host\ opens\ the\ empty\ box\ |choose\ the\ right\ box)\cdot Pr(contestant\ wins\ the\ car\ |host\ opens\ the\ empty\ box)\\+Pr(choose\ the\ wrong\ box)\cdot Pr(host\ opens\ the\ empty\ box\ |choose\ the\ wrong\ box)\cdot Pr(contestant\ wins\ the\ car\ |host\ opens\ the\ empty\ box)\\=\frac{1}{3} \cdot 1 \cdot 0 + \frac{2}{3} \cdot 1 \cdot 1 = \frac{2}{3}$
+
 ## Q8
+
+(a) **Event E**: Rolling a '6' on a fair die.
+
+**Information Sets**:
+
+IA : A observes the die roll.
+
+IB : B does not observe the die roll.
+
+**Probabilities**: For A, after observed the outcome, the sample space collapses to a single outcome. For B, the sample space remains the same. So Pr(E\|IA) = 1 for the '6' is seen and Pr(E\|IA)=0 for the '6' is not seen, but Pr(E\|IB) = 1/6.
+
+(b) In this situation, P(IA) might assign a uniform prior on every team, but P(IB) might assign different probability to different teams, for example, the probability of the team that has the best record is higher than the probability of the team that has the worst record.
